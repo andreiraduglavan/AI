@@ -18,7 +18,7 @@ class Network(object):
         ever used in computing the outputs from later layers."""
         self.num_layers = len(sizes)
         self.sizes = sizes
-        self.biases = [np.random.randn(y) for y in sizes[1:]]
+        self.biases = [np.random.randn(y) for y in sizes[1:]] #former self.biases = [np.random.randn((y,1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(sizes[:-1], sizes[1:])]
 
@@ -90,7 +90,7 @@ class Network(object):
         # backward pass
         delta = self.cost_derivative(activations[-1], y)*sigmoid_prime(zs[-1])
         nabla_b[-1] = delta
-        nabla_w[-1] = np.outer(delta, activations[-2])
+        nabla_w[-1] = np.outer(delta, activations[-2]) #former nabla_w[-1] = np.dot(delta, activations[-2])
         # Note that the variable l in the loop below is used a little
         # differently to the notation in Chapter 2 of the book.  Here,
         # l = 1 means the last layer of neurons, l = 2 is the
@@ -101,7 +101,7 @@ class Network(object):
             z = zs[-l]
             delta = np.dot(self.weights[-l+1].T, delta)*sigmoid_prime(z)
             nabla_b[-l] = delta
-            nabla_w[-l] = np.outer(delta, activations[-l-1]) 
+            nabla_w[-l] = np.outer(delta, activations[-l-1]) #former nabla_w[-l] = np.dot(delta, activations[-l-1])
         return (nabla_b, nabla_w)
 
     def evaluate(self, test_data):
